@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: spongeHome
+  datasource:
+    url: jdbc:mysql://localhost:3306/spongehome?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+     host: "localhost"
+     port: 6379
+     lettuce:
+      pool:
+       max-active: 8     # 最大连接数
+       max-wait: 2000ms   # 获取连接的最大等待时间
+       min-idle: 2       # 最小空闲连接
+       max-idle: 8       # 最大空闲连接
+     timeout: 5000ms      # 连接超时时间
+     redisson:
+       config:classpath: redisson-connection.yml
+       # 静态资源配置
+  profiles:
+    active: local
+server:
+  port: 8086
+  servlet:
+    context-path: /lhh
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: org.lhh.spongehome.controller
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+
+jwt:
+  secret: "wawasponge440782200106162114" # 推荐256位以上密钥
+  expiration: 86400000  # 24小时（毫秒）
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
